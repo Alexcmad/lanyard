@@ -1,10 +1,12 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import dotenv
+import os
 
+dotenv.load_dotenv()
+user = os.getenv("MONGO_USER")
+passkey = os.getenv("MONGO_PASSKEY")
 
-passkey = "hn5Fl9ANnAt1xj86"
-user = "mcintoshalexander80"
 
 uri = f"mongodb+srv://{user}:{passkey}@testclusster.srw37jc.mongodb.net/?retryWrites=true&w=majority&appName=TestClusster"
 

@@ -15,6 +15,56 @@ app.post('/api/scores', async (req, res) => {
     }
 })
 
+app.get('/api/scores', async (req, res) => {
+    try {
+        const scores = await Score.find();
+        res.status(200).json(scores);
+    } catch (error) {
+        console.log(500).json({message: error.message});
+    }
+})
+
+app.get('/api/scores/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const score = await Score.findById(id)
+        if (!score) {
+            return res.status(404).json({message: "Score not found"})
+        }
+        res.status(200).json(score)
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+app.put('/api/scores/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const score = await Score.findByIdAndUpdate(id, req.body);
+        if (!score) {
+            return res.status(404).json({message: "Score not found"})
+        }
+
+        const updatedScore = await Score.findById(id);
+        res.status(200).json(updatedScore)
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+})
+
+app.delete('/api/scores/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const score = await Score.findByIdAndDelete(id)
+        if (!score) {
+            return res.status(404).json({message: "Score not found"})
+        }
+        res.status(202).json({Score: score, message: "Deleted Successfully"})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
 app.get('/', (req, res) => {
     res.send("HEEEEEYYYY")
 })

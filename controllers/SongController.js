@@ -39,12 +39,12 @@ async function update_song_by_id (req, res) {
 
 async function get_all_songs(req, res) {
     try {
-        //const scores = await Score.find();
-        res.status(200).json({message: "All Songs"});
+        const songs = await Score.find();
+        res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
-}-
+}
 
 async function get_song_by_id (req, res) {
     try {

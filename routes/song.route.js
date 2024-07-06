@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/song.controller');
 
-const Score = require("../models/song.model");
-
-
 router.post('/api/songs', async (req, res) => {
         await controller.add_song(req,res)
 })

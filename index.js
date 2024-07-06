@@ -2,6 +2,7 @@ const {response} = require("express");
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const songRoute = require('./routes/song.route');
 
 //middleware
 app.use(express.json());
@@ -9,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 //routes
-app.use("/api/scores", scoreRoute)
+app.use("/api/songs", songRoute)
 
 
 app.get('/', (req, res) => {

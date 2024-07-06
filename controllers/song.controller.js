@@ -61,7 +61,7 @@ async function get_song_by_id (req, res) {
 
 
 
-export {
+module.exports= {
     add_song,
     delete_song_by_id,
     update_song_by_id,

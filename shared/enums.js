@@ -6,4 +6,6 @@ const Rating = {
     UNRATED : "Unrated"
 }
 
-module.exports.Rating = Rating ;
+module.exports = {
+    Rating,
+}

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/song.controller');
+const controller = require('../controllers/SongController');
 
 router.post('/', async (req, res) => {
         await controller.add_song(req,res)

@@ -37,6 +37,6 @@ const SongSchema = mongoose.Schema(
     }
 );
 
-const Song = mongoose.model("Score", SongSchema);
+const Song = mongoose.model("Song", SongSchema);
 
 module.exports = Song;

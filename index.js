@@ -3,11 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
+
 const USER = process.env.MONGO_USER;
 const PASSWORD = process.env.MONGO_PASSWORD;
 
 const songRoute = require('./routes/song.route');
 const userRoute = require('./routes/user.route');
+const scoreRoute = require('./routes/score.route');
 
 //middleware
 app.use(express.json());
@@ -17,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 //routes
 app.use("/api/songs", songRoute)
 app.use("/api/users", userRoute)
+app.use("/api/scores", scoreRoute)
 
 
 app.get('/', (req, res) => {

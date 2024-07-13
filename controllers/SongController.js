@@ -1,9 +1,9 @@
-const Score = require("../models/song.model");
+const Song = require("../models/song.model");
 
 async function add_song (req, res) {
     try {
-        const score = await Score.create(req.body);
-        res.status(200).json(score);
+        const song = await Song.create(req.body);
+        res.status(200).json(song);
     } catch (error) {
         res.status(500).json({message: error.message});
     }
@@ -12,11 +12,11 @@ async function add_song (req, res) {
 async function delete_song_by_id (req, res) {
     try {
         const {id} = req.params;
-        const score = await Score.findByIdAndDelete(id)
-        if (!score) {
-            return res.status(404).json({message: "Score not found"})
+        const song = await Song.findByIdAndDelete(id)
+        if (!song) {
+            return res.status(404).json({message: "Song not found"})
         }
-        res.status(202).json({Score: score, message: "Deleted Successfully"})
+        res.status(202).json({Score: song, message: "Deleted Successfully"})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
@@ -25,12 +25,12 @@ async function delete_song_by_id (req, res) {
 async function update_song_by_id (req, res) {
     try {
         const {id} = req.params;
-        const score = await Score.findByIdAndUpdate(id, req.body);
-        if (!score) {
-            return res.status(404).json({message: "Score not found"})
+        const song = await Song.findByIdAndUpdate(id, req.body);
+        if (!song) {
+            return res.status(404).json({message: "Song not found"})
         }
 
-        const updatedScore = await Score.findById(id);
+        const updatedScore = await Song.findById(id);
         res.status(200).json(updatedScore)
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -39,7 +39,7 @@ async function update_song_by_id (req, res) {
 
 async function get_all_songs(req, res) {
     try {
-        const songs = await Score.find();
+        const songs = await Song.find();
         res.status(200).json(songs);
     } catch (error) {
         res.status(500).json({message: error.message});
@@ -49,11 +49,11 @@ async function get_all_songs(req, res) {
 async function get_song_by_id (req, res) {
     try {
         const {id} = req.params;
-        const score = await Score.findById(id)
-        if (!score) {
-            return res.status(404).json({message: "Score not found"})
+        const song = await Song.findById(id)
+        if (!song) {
+            return res.status(404).json({message: "Song not found"})
         }
-        res.status(200).json(score)
+        res.status(200).json(song)
     } catch (error) {
         res.status(500).json({message: error.message})
     }

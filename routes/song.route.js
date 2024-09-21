@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/SongController');
+const auth = require('../middleware/auth');
 
 router.post('/', async (req, res) => {
-        await controller.add_song(req,res)
+    await controller.add_song(req,res)
 })
 
 router.get('/', async (req, res) => {
@@ -21,5 +22,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     await controller.delete_song_by_id(req,res)
 })
+
+router.post('/rate/:id',auth, controller.rateSong);
 
 module.exports = router

@@ -7,9 +7,12 @@ const app = express();
 const USER = process.env.MONGO_USER;
 const PASSWORD = process.env.MONGO_PASSWORD;
 
-const songRoute = require('./routes/song.route');
 const userRoute = require('./routes/user.route');
-const scoreRoute = require('./routes/score.route');
+const fileRoutes = require('./routes/file.route');
+const songRoutes = require('./routes/song.route');
+const progressRoute = require('./routes/userProgress.route')
+const authRoute = require('./routes/auth.route');
+
 
 //middleware
 app.use(express.json());
@@ -17,16 +20,19 @@ app.use(express.urlencoded({ extended: false }));
 
 
 //routes
-app.use("/api/songs", songRoute)
 app.use("/api/users", userRoute)
-app.use("/api/scores", scoreRoute)
+app.use('/api/files', fileRoutes);
+app.use('/api/songs', songRoutes)
+app.use('/api/progress', progressRoute)
+app.use('/api/auth', authRoute)
+
 
 
 app.get('/', (req, res) => {
     res.send("Ping")
 })
 
-mongoose.connect(`mongodb+srv://${USER}:${PASSWORD}@c1.tx89nds.mongodb.net/Node-API?retryWrites=true&w=majority&appName=c1`)
+mongoose.connect(`mongodb+srv://alex:*c$kg7L7KKQ-zzq@c1.tx89nds.mongodb.net/Node-API?retryWrites=true&w=majority&appName=c1`)
     .then(() => {
         console.log("Database Connected")
     })

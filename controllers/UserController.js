@@ -1,5 +1,4 @@
 const User = require('../models/user.model');
-const {get_all_songs} = require("./SongController");
 
 async function add_user(req, res) {
     try {
@@ -22,5 +21,5 @@ async function get_all_users(req, res) {
 
 module.exports = {
     add_user,
-    get_all_songs,
+    get_all_users,
 }

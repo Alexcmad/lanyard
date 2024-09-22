@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     res.send("Ping")
 })
 
-mongoose.connect(`mongodb+srv://alex:*c$kg7L7KKQ-zzq@c1.tx89nds.mongodb.net/Node-API?retryWrites=true&w=majority&appName=c1`)
+mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Database Connected")
     })

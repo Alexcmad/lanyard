@@ -26,11 +26,13 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
         console.error('MongoDB connection error:', err);
     });
 
+
 // Upload route using native GridFS
 router.post('/upload',auth, upload.single('file'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }
+
 
     const readStream = new stream.PassThrough();
     readStream.end(req.file.buffer);

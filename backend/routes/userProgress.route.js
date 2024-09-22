@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/UserProgressController');
+const controller = require('../controllers/userProgressController');
 const auth = require('../middleware/auth');
 
 // Route to update user progress

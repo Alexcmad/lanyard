@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const enums = require("../shared/enums.js")
 const {Schema} = require("mongoose");
 
 
@@ -45,10 +44,12 @@ const SongSchema = new Schema(
         },
 
         scores: {type: Schema.Types.ObjectId,
+            ref: 'Score',
         required: false,
         default: null},
 
         audio_files: {type: Schema.Types.ObjectId,
+            ref: 'Audio',
         required: false,
             default: null},
 

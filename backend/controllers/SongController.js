@@ -1,7 +1,17 @@
 const Song = require("../models/song.model");
+const Score = require("../models/score.model");
+const Audio = require("../models/audio.model");
 
 async function add_song (req, res) {
     try {
+        scores = new Score({name: req.body.title})
+        audios = new Audio({name: req.body.title})
+        await audios.save()
+        await scores.save()
+        console.log(audios)
+        console.log(scores)
+        req.body.scores = scores._id
+        req.body.audio_files = audios._id
         const song = await Song.create(req.body);
         res.status(200).json(song);
     } catch (error) {
@@ -49,7 +59,7 @@ async function get_all_songs(req, res) {
 async function get_song_by_id (req, res) {
     try {
         const {id} = req.params;
-        const song = await Song.findById(id)
+        const song = await Song.findById(id).populate('scores').populate("audio_files");
         if (!song) {
             return res.status(404).json({message: "Song not found"})
         }

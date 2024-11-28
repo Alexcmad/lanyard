@@ -37,6 +37,28 @@ const SongSchema = new Schema(
             }
         }],
 
+        progress:[{
+            user: {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+                required:true
+            },
+            completion: {
+                type: Number,
+                required: false,
+                min: 1,
+                max: 4,
+                default: 0,
+            },
+            section: {
+                type:Number,
+                required: false,
+                min: 0,
+                max: 6,
+                default: null
+            }
+        }],
+
         arranger: {
             type: [String],
             required: false,

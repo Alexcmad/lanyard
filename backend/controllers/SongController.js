@@ -47,14 +47,19 @@ async function update_song_by_id (req, res) {
     }
 }
 
-async function get_all_songs(req, res) {
+// controllers/SongController.js
+
+async function get_all_songs (req, res){
     try {
-        const songs = await Song.find();
-        res.status(200).json(songs);
+        const songs = await Song.find()
+            .populate('scores')
+            .populate('audio_files');
+        res.json(songs);
     } catch (error) {
-        res.status(500).json({message: error.message});
+        res.status(500).json({ message: 'Failed to fetch songs.' });
     }
-}
+};
+
 
 async function get_song_by_id (req, res) {
     try {

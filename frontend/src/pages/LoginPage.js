@@ -1,18 +1,31 @@
+// src/pages/LoginPage.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
+import {jwtDecode} from 'jwt-decode';
 import api from '../services/api';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate(); // useNavigate hook to replace history.push()
+    const navigate = useNavigate();
+
+    const isTokenValid = (token) => {
+        try {
+            const decodedToken = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+            return decodedToken.exp && decodedToken.exp > currentTime;
+        } catch (error) {
+            return false;
+        }
+    };
 
     useEffect(() => {
-        // If the user is already logged in, redirect to the dashboard
         const token = localStorage.getItem('token');
-        if (token) {
+        if (token && isTokenValid(token)) {
             navigate('/dashboard');
+        } else {
+            localStorage.removeItem('token');
         }
     }, [navigate]);
 
@@ -20,8 +33,8 @@ function LoginPage() {
         e.preventDefault();
         try {
             const response = await api.post('/auth/login', { email, password });
-            localStorage.setItem('token', response.data.token); // Store the JWT
-            navigate('/dashboard');  // Use navigate to redirect to the dashboard
+            localStorage.setItem('token', response.data.token);
+            navigate('/dashboard');
         } catch (err) {
             setError('Invalid credentials');
         }
@@ -38,6 +51,7 @@ function LoginPage() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
@@ -46,10 +60,14 @@ function LoginPage() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <p>
+                Don't have an account? <Link to="/register">Register here</Link>
+            </p>
         </div>
     );
 }

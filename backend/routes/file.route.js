@@ -1,4 +1,4 @@
-const { MongoClient, GridFSBucket } = require('mongodb');
+const { MongoClient, GridFSBucket, ObjectId} = require('mongodb');
 const express = require('express');
 const multer = require('multer');
 const stream = require('stream');
@@ -75,6 +75,37 @@ router.get('/files', async (req, res) => {
         res.json(files);
     } catch (err) {
         res.status(500).json({ error: 'Error fetching files' });
+    }
+});
+
+// Download route
+router.get('/download/:id', auth, async (req, res) => {
+    try {
+        const fileId =req.params.id
+        console.log(fileId)
+        // Find the file metadata
+        const fileMetadata = await FileMetadata.findById(fileId);
+        if (!fileMetadata) {
+            return res.status(404).json({ error: 'File not found' });
+        }
+
+        // Create a download stream from GridFS
+        const downloadStream = bucket.openDownloadStream(fileId);
+
+        // Set the headers
+        res.set({
+            'Content-Type': fileMetadata.contentType,
+            'Content-Disposition': `attachment; filename="${fileMetadata.filename}"`,
+        });
+
+        // Pipe the download stream to the response
+        downloadStream.pipe(res).on('error', (error) => {
+            console.error('Download error:', error);
+            res.status(500).json({ error: 'Error downloading file' });
+        });
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Error processing request' });
     }
 });
 
